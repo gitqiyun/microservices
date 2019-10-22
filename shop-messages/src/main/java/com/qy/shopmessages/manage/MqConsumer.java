@@ -18,7 +18,7 @@ public class MqConsumer {
 
 	@JmsListener(destination = "mail_queue")
 	public void mailReceiver(String json) {
-		sendMailManage.sendMail(json);
+		/*sendMailManage.sendMail(json);*/
 	}
 
 }

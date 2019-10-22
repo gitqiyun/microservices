@@ -38,6 +38,16 @@ spring:
   jms:
     pub-sub-domain: false # 开启topic订阅，不开启就是queue
 
+  mail:
+    host: smtp.qq.com
+    username: yushengjun644064@163.com
+    password: itmayiedu644
+
+
+
+
+
+
 #自定义值
 messages:
   #邮件队列

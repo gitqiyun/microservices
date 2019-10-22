@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.qy.shopmessages.manage.MqProducer;
 import com.qy.shopmessages.manage.MailManage;
+import com.qy.shopmessages.model.Mail;
 import org.apache.activemq.command.ActiveMQQueue;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -33,17 +34,17 @@ public class MailManageImpl implements MailManage {
     private String MAIL_QUEUE;
 
     @Override
-    public void sendMail(String json) {
-        JSONObject jsonObject = JSON.parseObject(json);
-        String from = jsonObject.getString("from");
-        String to = jsonObject.getString("to");
-        String subject = jsonObject.getString("subject");
-        String text = jsonObject.getString("text");
+    public void sendMail(Mail mail) {
+
+        String from = mail.getFrom();
+        String to = mail.getTo();
+        String subject = mail.getSubject();
+        String text = mail.getText();
         //todo 验证
         // 发送邮件
         SimpleMailMessage message = new SimpleMailMessage();
         message.setFrom(from);
-        message.setTo(to); // 自己给自己发送邮件
+        message.setTo(to);
         message.setSubject(subject);
         message.setText(text);
 

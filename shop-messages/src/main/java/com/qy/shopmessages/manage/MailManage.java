@@ -1,5 +1,7 @@
 package com.qy.shopmessages.manage;
 
+import com.qy.shopmessages.model.Mail;
+
 import javax.jms.Destination;
 
 /**
@@ -8,7 +10,9 @@ import javax.jms.Destination;
  * @描述
  */
 public interface MailManage {
-    void sendMail(String json);
+
+    void sendMail(Mail mail);
+
     void sendMail2Mq(String json);
 
     /**
