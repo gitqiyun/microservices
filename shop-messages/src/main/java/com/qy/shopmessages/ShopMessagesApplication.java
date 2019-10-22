@@ -34,7 +34,7 @@ public class ShopMessagesApplication {
     @GetMapping("/mail")
     public String mail(){
         Mail mail =new Mail();
-        mail.setFrom("yushengjun644064@163.com");
+        mail.setFrom("1114260199@qq.com");
         mail.setTo("1114260199@qq.com");
         mail.setSubject("testsubject");
         mail.setText("testtext");

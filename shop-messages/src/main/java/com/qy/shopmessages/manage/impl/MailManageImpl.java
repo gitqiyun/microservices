@@ -22,6 +22,8 @@ import javax.jms.Destination;
  */
 @Service
 @Transactional
+//添加事务则和数据库有关，获取事务则必须能连接上数据库，获取事务是再执行MailManageImpl代理类的代理方法如sendMail等方法前
+//获取事务的，如果没有连接数据库那么则会异常则会执行不了sendMail等方法，所以只是测试mail没有连接数据库则不能添加Transactional
 public class MailManageImpl implements MailManage {
 
     @Autowired
@@ -53,8 +55,8 @@ public class MailManageImpl implements MailManage {
 
     @Override
     public void sendMail2Mq(String json) {
-        Destination destination = new ActiveMQQueue(MAIL_QUEUE);
-        mqProducer.send(destination, json);
+ /*       Destination destination = new ActiveMQQueue(MAIL_QUEUE);
+        mqProducer.send(destination, json);*/
     }
 
     @Override
