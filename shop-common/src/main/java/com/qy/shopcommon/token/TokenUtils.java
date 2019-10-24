@@ -3,12 +3,9 @@ package com.qy.shopcommon.token;
 
 import java.util.UUID;
 
-import org.springframework.stereotype.Component;
-
-@Component
 public class TokenUtils {
 
-	public String getToken() {
+	public static String getToken() {
 		return UUID.randomUUID().toString();
 	}
 
@@ -16,7 +13,7 @@ public class TokenUtils {
 	 * 获取支付token
 	 * @return
 	 */
-	public String getPayToken() {
+	public static String getPayToken() {
 		return "pay-" + UUID.randomUUID().toString();
 	}
 }
