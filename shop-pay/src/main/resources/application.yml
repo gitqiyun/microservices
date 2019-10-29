@@ -1,0 +1,17 @@
+spring:
+  application:
+    name: pay
+  profiles:
+    active: com
+server:
+  port: 9001
+
+mybatis:
+  mapper-locations: classpath:/mybatis/**/*Mapper.xml
+  type-aliases-package: com.qy.shoppay.model
+
+
+#自定义值
+messages:
+  #邮件队列
+  mail_queue: mail_queue

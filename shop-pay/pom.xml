@@ -27,14 +27,97 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
-            <scope>test</scope>
-            <exclusions>
-                <exclusion>
-                    <groupId>org.junit.vintage</groupId>
-                    <artifactId>junit-vintage-engine</artifactId>
-                </exclusion>
-            </exclusions>
         </dependency>
+
+
+        <!--web支持-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+
+        <!--mybatis 启动类，自动添加了mybatis、mybatis-spring-->
+        <dependency>
+            <groupId>org.mybatis.spring.boot</groupId>
+            <artifactId>mybatis-spring-boot-starter</artifactId>
+            <!--自动则匹配不上，可能springboot版本过高，ybatis-spring-boot-starter包还没有发布-->
+            <version>2.1.0</version>
+        </dependency>
+
+        <!-- 集成mysql -->
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+        </dependency>
+        <!-- 集成druid -->
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>druid-spring-boot-starter</artifactId>
+            <!--自动则匹配不上-->
+            <version>1.1.20</version>
+        </dependency>
+
+        <dependency>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-classic</artifactId>
+            <version>1.2.3</version>
+        </dependency>
+
+        <!-- springboot整合activemq -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-activemq</artifactId>
+        </dependency>
+
+        <!-- 集成发送邮件-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-mail</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>fastjson</artifactId>
+            <version>1.2.62</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.qy</groupId>
+            <artifactId>shop-common</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+            <scope>compile</scope>
+        </dependency>
+
+
+
+        <!--用于创建CSR（证书请求）-->
+        <dependency>
+            <groupId>org.bouncycastle</groupId>
+            <artifactId>bcprov-jdk15on</artifactId>
+            <version>1.54</version>
+        </dependency>
+
+        <!--Apache开源组织提供的用于摘要运算、编码解码-->
+        <dependency>
+            <groupId>commons-codec</groupId>
+            <artifactId>commons-codec</artifactId>
+            <version>1.6</version>
+        </dependency>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     </dependencies>
 
     <build>
