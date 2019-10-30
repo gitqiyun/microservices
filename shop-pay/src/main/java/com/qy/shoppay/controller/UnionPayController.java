@@ -58,7 +58,7 @@ public class UnionPayController {
      * @param response
      * @throws IOException
      */
-    @RequestMapping(value = "/frontRcvResponse", method = RequestMethod.POST)
+    @RequestMapping(value = "/frontRcvResponse", method = {RequestMethod.GET, RequestMethod.POST})
     public void frontRcvResponse(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
 
         unionPayManage.frontRcvResponse(request, response);

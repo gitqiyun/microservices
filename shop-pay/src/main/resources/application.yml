@@ -3,6 +3,12 @@ spring:
     name: pay
   profiles:
     active: com
+  http:
+    encoding:
+      charset: UTF-8
+      force: true
+      enabled: true
+
 server:
   port: 9001
 

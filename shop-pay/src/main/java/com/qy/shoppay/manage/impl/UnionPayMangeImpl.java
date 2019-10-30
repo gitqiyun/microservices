@@ -22,7 +22,7 @@ import java.util.*;
 @Service
 public class UnionPayMangeImpl implements UnionPayManage {
     @PostConstruct
-    public void  init(){
+    public void init() {
         System.out.println("银联支付初始化");
         SDKConfig.getConfig().loadPropertiesFromSrc(); //从classpath加载acp_sdk.properties文件
     }
@@ -30,7 +30,7 @@ public class UnionPayMangeImpl implements UnionPayManage {
 
     @Override
     public void pay(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-        resp.setContentType("text/html; charset="+ DemoBase.encoding);
+        resp.setContentType("text/html; charset=" + DemoBase.encoding);
 
         //前台页面传过来的
         String merId = req.getParameter("merId");
@@ -41,21 +41,21 @@ public class UnionPayMangeImpl implements UnionPayManage {
         Map<String, String> requestData = new HashMap<String, String>();
 
         /***银联全渠道系统，产品参数，除了encoding自行选择外其他不需修改***/
-        requestData.put("version", DemoBase.version);   			  //版本号，全渠道默认值
-        requestData.put("encoding", DemoBase.encoding); 			  //字符集编码，可以使用UTF-8,GBK两种方式
+        requestData.put("version", DemoBase.version);              //版本号，全渠道默认值
+        requestData.put("encoding", DemoBase.encoding);              //字符集编码，可以使用UTF-8,GBK两种方式
         requestData.put("signMethod", SDKConfig.getConfig().getSignMethod()); //签名方法
-        requestData.put("txnType", "01");               			  //交易类型 ，01：消费
-        requestData.put("txnSubType", "01");            			  //交易子类型， 01：自助消费
-        requestData.put("bizType", "000201");           			  //业务类型，B2C网关支付，手机wap支付
-        requestData.put("channelType", "07");           			  //渠道类型，这个字段区分B2C网关支付和手机wap支付；07：PC,平板  08：手机
+        requestData.put("txnType", "01");                          //交易类型 ，01：消费
+        requestData.put("txnSubType", "01");                          //交易子类型， 01：自助消费
+        requestData.put("bizType", "000201");                      //业务类型，B2C网关支付，手机wap支付
+        requestData.put("channelType", "07");                      //渠道类型，这个字段区分B2C网关支付和手机wap支付；07：PC,平板  08：手机
 
         /***商户接入参数***/
-        requestData.put("merId", merId);    	          			  //商户号码，请改成自己申请的正式商户号或者open上注册得来的777测试商户号
-        requestData.put("accessType", "0");             			  //接入类型，0：直连商户
-        requestData.put("orderId",orderId);             //商户订单号，8-40位数字字母，不能含“-”或“_”，可以自行定制规则
+        requestData.put("merId", merId);                              //商户号码，请改成自己申请的正式商户号或者open上注册得来的777测试商户号
+        requestData.put("accessType", "0");                          //接入类型，0：直连商户
+        requestData.put("orderId", orderId);             //商户订单号，8-40位数字字母，不能含“-”或“_”，可以自行定制规则
         requestData.put("txnTime", txnTime);        //订单发送时间，取系统时间，格式为yyyyMMddHHmmss，必须取当前时间，否则会报txnTime无效
-        requestData.put("currencyCode", "156");         			  //交易币种（境内商户一般是156 人民币）
-        requestData.put("txnAmt", txnAmt);             			      //交易金额，单位分，不要带小数点
+        requestData.put("currencyCode", "156");                      //交易币种（境内商户一般是156 人民币）
+        requestData.put("txnAmt", txnAmt);                              //交易金额，单位分，不要带小数点
         //requestData.put("reqReserved", "透传字段");        		      //请求方保留域，如需使用请启用即可；透传字段（可以实现商户自定义参数的追踪）本交易的后台通知,对本交易的交易状态查询交易、对账文件中均会原样返回，商户可以按需上传，长度为1-1024个字节。出现&={}[]符号时可能导致查询接口应答报文解析失败，建议尽量只传字母数字并使用|分割，或者可以最外层做一次base64编码(base64编码之后出现的等号不会导致解析失败可以不用管)。
 
         requestData.put("riskRateInfo", "{commodityName=测试商品名称}");
@@ -85,12 +85,12 @@ public class UnionPayMangeImpl implements UnionPayManage {
         //////////////////////////////////////////////////
 
         /**请求参数设置完毕，以下对请求参数进行签名并生成html表单，将表单写入浏览器跳转打开银联页面**/
-        Map<String, String> submitFromData = AcpService.sign(requestData,DemoBase.encoding);  //报文中certId,signature的值是在signData方法中获取并自动赋值的，只要证书配置正确即可。
+        Map<String, String> submitFromData = AcpService.sign(requestData, DemoBase.encoding);  //报文中certId,signature的值是在signData方法中获取并自动赋值的，只要证书配置正确即可。
 
         String requestFrontUrl = SDKConfig.getConfig().getFrontRequestUrl();  //获取请求银联的前台地址：对应属性文件acp_sdk.properties文件中的acpsdk.frontTransUrl
-        String html = AcpService.createAutoFormHtml(requestFrontUrl, submitFromData,DemoBase.encoding);   //生成自动跳转的Html表单
+        String html = AcpService.createAutoFormHtml(requestFrontUrl, submitFromData, DemoBase.encoding);   //生成自动跳转的Html表单
 
-        LogUtil.writeLog("打印请求HTML，此为请求报文，为联调排查问题的依据："+html);
+        LogUtil.writeLog("打印请求HTML，此为请求报文，为联调排查问题的依据：" + html);
         //将生成的html写到浏览器中完成自动跳转打开银联支付页面；这里调用signData之后，将html写到浏览器跳转到银联页面之前均不能对html中的表单项的名称和值进行修改，如果修改会导致验签不通过
         resp.getWriter().write(html);
     }
@@ -114,13 +114,13 @@ public class UnionPayMangeImpl implements UnionPayManage {
             LogUtil.writeLog("验证签名结果[成功].");
             //【注：为了安全验签成功才应该写商户的成功处理逻辑】交易成功，更新商户订单状态
 
-            String orderId =reqParam.get("orderId"); //获取后台通知的数据，其他字段也可用类似方式获取
+            String orderId = reqParam.get("orderId"); //获取后台通知的数据，其他字段也可用类似方式获取
             String respCode = reqParam.get("respCode");
             //判断respCode=00、A6后，对涉及资金类的交易，请再发起查询接口查询，确定交易成功后更新数据库。
-            if("00".equals(respCode)){  // 00 交易成功
+            if ("00".equals(respCode)) {  // 00 交易成功
 
                 //todo 若交易成功
-            }else if("A6".equals(respCode)){  // A6 部分成功
+            } else if ("A6".equals(respCode)) {  // A6 部分成功
 
             }
         }
@@ -131,6 +131,7 @@ public class UnionPayMangeImpl implements UnionPayManage {
 
     @Override
     public void frontRcvResponse(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+
         LogUtil.writeLog("FrontRcvResponse前台接收报文返回开始");
 
         String encoding = req.getParameter(SDKConstants.param_encoding);
@@ -173,9 +174,9 @@ public class UnionPayMangeImpl implements UnionPayManage {
             String respCode = valideData.get("respCode");
             //判断respCode=00、A6后，对涉及资金类的交易，请再发起查询接口查询，确定交易成功后更新数据库。
         }
-     /*   req.setAttribute("result", page.toString());
+/*        req.setAttribute("result", page.toString());
         req.getRequestDispatcher(pageResult).forward(req, resp);*/
-
+        resp.setContentType("text/html;charset=UTF-8");
         resp.getWriter().print("支付成功");
         LogUtil.writeLog("FrontRcvResponse前台接收报文返回结束");
     }
@@ -200,6 +201,7 @@ public class UnionPayMangeImpl implements UnionPayManage {
      * 获取请求参数中所有的信息
      * 当商户上送frontUrl或backUrl地址中带有参数信息的时候，
      * 这种方式会将url地址中的参数读到map中，会导多出来这些信息从而致验签失败，这个时候可以自行修改过滤掉url中的参数或者使用getAllRequestParamStream方法。
+     *
      * @param request
      * @return
      */
